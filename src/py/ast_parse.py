@@ -31,7 +31,6 @@ class DependencyGraph:
             self.psyneulink_function_classes + \
             self.psyneulink_composition_manipulation_methods
         self.index = {}
-        self.run_nodes = []
         self.fst = RedBaron(src)
         self.all_assigns = self.fst.find_all('assign',
                                              recursive=False)
@@ -102,8 +101,9 @@ class DependencyGraph:
                         self.check_list_node_for_types(i,acceptable_types) or \
                         i.find('name', self.psyneulink_calls):
                     self.execute_node(i, namespace)
-                elif i.find('name', ['run', 'execute']):
-                    self.run_nodes.append(i)
+            elif i.find('call'):
+                if i.find('name',self.psyneulink_calls):
+                    self.execute_node(i, namespace)
         gdict = self.fst.find('assign',lambda x: x.find('name','pnlv_graphics_spec'))
         if gdict:
             self.execute_node(gdict, namespace)

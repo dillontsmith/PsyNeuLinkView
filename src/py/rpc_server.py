@@ -12,7 +12,6 @@ import ast_parse
 import threading
 import random
 import warnings
-import inspect
 
 my_env = os.environ
 
@@ -53,7 +52,6 @@ class Container():
         }
         self.filepath = None
         self.AST = None
-        self.run_nodes = []
         self.shared_queue = Queue()
         self.shared_queue_lock = threading.RLock()
 
@@ -94,12 +92,8 @@ class GraphServer(graph_pb2_grpc.ServeGraphServicer):
         name = request.name
         parameter_list = list(pnl_container.pnl_objects['components'][name].loggable_items.keys())
         return graph_pb2.ParameterList(
-            parameters=parameter_list
+            parameters = parameter_list
         )
-
-    def GetRunSpecs(self, request, context):
-        graph_name = request.name
-        return graph_pb2
 
     def GetJSON(self, request, context):
         graph_name = request.name
@@ -116,14 +110,8 @@ class GraphServer(graph_pb2_grpc.ServeGraphServicer):
     def HealthCheck(self, request, context):
         return graph_pb2.HealthStatus(status='Okay')
 
-    def GetRunSpecs(self, request, context):
-        run_specs = []
-        for node in set(pnl_container.run_nodes):
-            run_specs.append(get_run_spec_from_run_node(node))
-        return graph_pb2.RunSpecs(runSpecs=run_specs)
-
     def RunComposition(self, request, context):
-        thread = threading.Thread(target=runComposition,
+        thread = threading.Thread(target=run_composition,
                                   args=[
                                       pnl_container.hashable_pnl_objects['compositions'][-1],
                                       request.inputs,
@@ -131,6 +119,7 @@ class GraphServer(graph_pb2_grpc.ServeGraphServicer):
                                   ])
         thread.daemon = True
         thread.start()
+        i = 0
         while True:
             if not pnl_container.shared_queue.empty():
                 e =  pnl_container.shared_queue.get()
@@ -162,7 +151,7 @@ def handle_serve_prefs(composition, servePrefs):
                 node.set_delivery_conditions(servePref.parameterName,
                                              pnl.LogCondition.__dict__[serve_conditions[servePref.condition]])
 
-def runComposition(composition, inputs, servePrefs):
+def run_composition(composition, inputs, servePrefs):
     formatted_inputs = {}
     handle_serve_prefs(composition, servePrefs)
     con = pnl.Context(
@@ -174,7 +163,7 @@ def runComposition(composition, inputs, servePrefs):
         rows = inputs[key].rows
         cols = inputs[key].cols
         formatted_inputs[comp.nodes[key]] = np.array(inputs[key].data).reshape((rows, cols))
-    comp.run(inputs=formatted_inputs, context=con)
+    comp.run(inputs = formatted_inputs, context = con)
 
 def get_new_pnl_objects(namespace):
     compositions = {}
@@ -201,31 +190,12 @@ def load_style(filepath):
     else:
         pnl_container.graphics_spec = {}
 
-def get_run_spec_from_run_node(node):
-    args = node.value.find_all('call_argument')
-    function_called = str(node.value[-2])
-    arg_names = [i for i in inspect.signature(pnl.Composition.__dict__[function_called]).parameters.keys() if i != 'self']
-    args_unpacked = {i:'' for i in arg_names if i != 'self'}
-    for i in args:
-        if i.name:
-            name = str(i.name)
-        else:
-            idx = i.index_on_parent
-            name = arg_names[idx]
-        value = i.value
-        args_unpacked[name] = str(value)
-    node_index = str(pnl_container.run_nodes.index(node))
-    return graph_pb2.RunSpec(**args_unpacked, node_index=node_index)
-
 def loadScript(filepath):
     pnl_container.filepath = filepath
     pnl_container.AST = open(filepath, 'r').read()
     dg = ast_parse.DependencyGraph(pnl_container.AST, pnl)
     namespace = {}
     dg.execute_ast(namespace)
-    other_namespace = {}
-    dg.execute_ast(other_namespace)
-    pnl_container.run_nodes = dg.run_nodes
     get_new_pnl_objects(namespace)
     get_graphics_dict(namespace)
     return pnl_container.hashable_pnl_objects['compositions']

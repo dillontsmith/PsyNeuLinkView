@@ -50,7 +50,7 @@ class ControlStrip extends React.Component {
                     }
                 }
             );
-            rpc.runComposition(
+            rpc.run_composition(
                 inputs, deliveryConditions
             );
         }
