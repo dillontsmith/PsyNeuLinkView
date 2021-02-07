@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0426a943-ef89-4391-a3a0-8152f91aa099" name="Default Changelist" comment="fix up readme">
+    <list default="true" id="0426a943-ef89-4391-a3a0-8152f91aa099" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/PsyNeuLinkView Users Guide.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/input.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/control-strip.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/control-strip.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/py/ast_parse.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/py/ast_parse.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/py/rpc_server.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/py/rpc_server.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -273,7 +272,7 @@
       <workItem from="1612479285893" duration="59000" />
       <workItem from="1612580847236" duration="599000" />
       <workItem from="1612726599435" duration="1569000" />
-      <workItem from="1612732245899" duration="522000" />
+      <workItem from="1612732245899" duration="1118000" />
     </task>
     <task id="LOCAL-00001" summary="Enabled touchpad zoom gestures and windows ctrl shortcuts">
       <created>1581449946471</created>
@@ -576,7 +575,14 @@
       <option name="project" value="LOCAL" />
       <updated>1609789535106</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="fix some issues that broke comp running">
+      <created>1612733005513</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1612733005513</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -607,7 +613,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="Switched to electron 10, switched to grpc-js" />
     <MESSAGE value="replaced some event listeners that were causing bottlenecks; disabled some other code that was also slowing things down which still needs to be replaced" />
     <MESSAGE value="cleaned up dependencies" />
     <MESSAGE value="added some files to repo" />
@@ -632,17 +637,18 @@
     <MESSAGE value="convert all snakecase to camelcase" />
     <MESSAGE value="fit model to slightly less than the total size of the canvas" />
     <MESSAGE value="fix up readme" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix up readme" />
+    <MESSAGE value="fix some issues that broke comp running" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix some issues that broke comp running" />
   </component>
   <component name="WindowStateProjectService">
     <state x="896" y="295" width="889" height="580" key="#xdebugger.evaluate" timestamp="1606758595075">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="896" y="295" width="889" height="580" key="#xdebugger.evaluate/0.0.1920.1040@0.0.1920.1040" timestamp="1606758595075" />
-    <state x="598" y="118" width="1168" height="803" key="CommitChangelistDialog2" timestamp="1612479340871">
+    <state x="598" y="118" width="1168" height="803" key="CommitChangelistDialog2" timestamp="1612733004964">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="598" y="118" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1612479340871" />
+    <state x="598" y="118" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1612733004964" />
     <state x="355" y="113" width="1536" height="860" key="DiffContextDialog" timestamp="1612732521736">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
