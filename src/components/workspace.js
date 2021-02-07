@@ -64,7 +64,7 @@ class WorkSpace extends React.PureComponent {
             baselineVertical:sizingFactors.verticalFactor,
             graph: null,
             graphStyle:null,
-            showSettings: false,
+            showSettings: !fs.getConfig()['Python']['Interpreter Path'],
             mouse:null,
             filepath: null,
             activeComponent: 'graphview'
@@ -85,19 +85,15 @@ class WorkSpace extends React.PureComponent {
 
     bindThisToFunctions(){
         this.getCurrentGraphStyle = this.getCurrentGraphStyle.bind(this);
-        this.getReferenceSizingFactors = this.getReferenceSizingFactors.bind(this);
         this.setGraphSize = this.setGraphSize.bind(this);
         this.chooseComposition = this.chooseComposition.bind(this);
         this.componentWillMount = this.componentWillMount.bind(this);
-        this.panelResize = this.panelResize.bind(this);
-        this.getMouseInitial = this.getMouseInitial.bind(this);
         this.setToolTip = this.setToolTip.bind(this);
         this.windowResize = this.windowResize.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
         this.componentDidUpdate = this.componentDidUpdate.bind(this);
         this.validateServerStatusAndLoadScript = this.validateServerStatusAndLoadScript.bind(this);
         this.handleErrors = this.handleErrors.bind(this);
-        this.saveMouseData = this.saveMouseData.bind(this);
         this.setActiveComponent = this.setActiveComponent.bind(this);
         this.setupIpcEvents = this.setupIpcEvents.bind(this);
         this.handleParameterList = this.handleParameterList.bind(this);
@@ -111,12 +107,29 @@ class WorkSpace extends React.PureComponent {
         this.getInitialFilepath();
     }
 
+    /**
+     * Register callbacks for use with Electron IPC. This is the entry point used for receiving data from server process
+     * (and, in turn, from RPC server). We use the entry point here in workspace because it is the highest level
+     * Component we have other than the root App Component.
+     */
     setupIpcEvents() {
         ipcRenderer.on('parameterList', this.handleParameterList);
         ipcRenderer.on('componentList', this.handleComponentList);
         ipcRenderer.on('runData', this.handleIncomingData);
     }
 
+    /**
+     * Handles incoming LogEntry data from PsyNeuLink Components that are executing by adding them to the redux
+     * store.
+     *
+     * @param event - the raw javascript event emmitted by Electron
+     * @param message - object containing the following fields as specified in the ProtoBuff definition file:
+     *  - (str) componentName
+     *  - (str) parameterName
+     *  - (str) time
+     *  - (str) context
+     *  - (n-dimensional Array) value
+     */
     handleIncomingData(event, message) {
         let {componentMapIdToParameterSet: idToParameters,
             componentMapNameToId: nameToId,
@@ -132,6 +145,14 @@ class WorkSpace extends React.PureComponent {
         }
     }
 
+    /**
+     * Registers a list of parameters of a PsyNeuLink component that is instantiated in the python interpreter with
+     * redux store.
+     *
+     * @param event - the raw javascript event emmitted by Electron
+     * @param message - object containing the following fields as specified in the ProtoBuff definition file:
+     *  ([str]) - parameters
+     */
     handleParameterList(event, message) {
         let idSet = new Set([...this.props.psyNeuLinkIdSet]);
         let {ownerName, parameters} = message;
@@ -145,6 +166,14 @@ class WorkSpace extends React.PureComponent {
         this.props.registerParameters({ownerId: ownerId, parameterSpecs: parameterSpecs})
     }
 
+    /**
+     * Registers a set of PsyNeuLink Components with the redux store
+     *
+     * @param event - the raw javascript event emmitted by Electron
+     * @param message - object containing the following fields as specified in the ProtoBuff definition file
+     *  (ScriptComponents) - components
+     *
+     */
     handleComponentList(event, message) {
         let idSet = new Set([...this.props.psyNeuLinkIdSet]);
         message.forEach(m=>{
@@ -155,6 +184,9 @@ class WorkSpace extends React.PureComponent {
         this.setState({components:message})
     }
 
+    /**
+     * Loads the last-opened PNL script
+     */
     getInitialFilepath() {
         var config = fs.getConfig(),
             filepath = config.env.filepath;
@@ -163,7 +195,9 @@ class WorkSpace extends React.PureComponent {
         }
     }
 
-
+    /**
+     * Sets up the menu bar
+     */
     setMenu() {
         const electron = window.remote;
         const isMac = navigator.platform.toUpperCase().includes("MAC");
@@ -241,7 +275,7 @@ class WorkSpace extends React.PureComponent {
                         label: 'Preferences',
                         accelerator: 'CmdOrCtrl+,',
                         click() {
-                            self.setState({'show_settings': true});
+                            self.setState({'showSettings': true});
                         }
                     }
                 ],
@@ -273,13 +307,9 @@ class WorkSpace extends React.PureComponent {
         // exports.menu_bindings = menu_bindings;
     }
 
-
-    sleep(ms) {
-        return new Promise(resolve => {
-            setTimeout(resolve, ms)
-        })
-    }
-
+    /**
+     * Opens a file selection dialog and, when a PNL script is selected, loads it into the GUI
+     */
     fileSelectionDialog() {
         var self = this;
         var filepath = window.dialog.showOpenDialog(
@@ -299,6 +329,10 @@ class WorkSpace extends React.PureComponent {
         )
     }
 
+    /**
+     * loads a PNL script from a filepath
+     * @param filepath - filepath from which to load a PNL script
+     */
     loadScript(filepath) {
         var win;
         var self = this;
@@ -343,6 +377,9 @@ class WorkSpace extends React.PureComponent {
         );
     }
 
+    /**
+     * Gets Composition, graph, and graph style from RPC and registers it with redux store
+     */
     setStateFromRpcClient(){
         var self = this,
             filepath = this.filepath,
@@ -370,6 +407,9 @@ class WorkSpace extends React.PureComponent {
         window.remote.getCurrentWindow().setTitle(`${composition} \u2014 ${filepath}`)
     }
 
+    /**
+     * restarts the RPC server and loads script
+     */
     async validateServerStatusAndLoadScript(filepath) {
         var self, previous_title, win;
         self = this;
@@ -385,6 +425,10 @@ class WorkSpace extends React.PureComponent {
         );
     }
 
+    /**
+     * gets initial sizes for the cells of the workspace based on Window size
+     * @returns {{rowOneHorizontalFactor: null, rowTwoHorizontalFactor: null, verticalFactor: null}}
+     */
     getInitialSizingFactors() {
         var w = window.innerWidth,
             h = window.innerHeight,
@@ -409,7 +453,9 @@ class WorkSpace extends React.PureComponent {
         )
     }
 
-
+    /**
+     * Gets the currently specified graph style from the loaded script
+     */
     getCurrentGraphStyle(){
         var self = this;
         this.rpcClient.get_style(self.filepath, function (err) {
@@ -435,7 +481,9 @@ class WorkSpace extends React.PureComponent {
         })
     }
 
-
+    /**
+     * Currently unused method to choose a composition from a script that has more than one
+     */
     chooseComposition() {
         var compositions = this.container.json.compositions;
         var chosenComposition = null;
@@ -448,25 +496,19 @@ class WorkSpace extends React.PureComponent {
         return chosenComposition
     }
 
+    /**
+     * Sets the active tool tip in the tool tip window (the bottom left cell)
+     * @param text - the text with which to populate the tool tip box
+     */
     setToolTip(text) {
         var stateWithNewText = {...this.state.active_tooltip};
         stateWithNewText = text;
         this.setState({active_tooltip: stateWithNewText})
     }
 
-    getMouseInitial() {
-        this.mouse_initial = this.state.mouse
-    }
-
-    getReferenceSizingFactors(horizontal, vertical){
-        // this.reference_factors = {
-        //     horizontal_key:horizontal,
-        //     horizontal_value:this.state[horizontal],
-        //     vertical_key:vertical,
-        //     vertical_value:this.state[vertical]
-        // }
-    }
-
+    /**
+     * Adjusts cell sizes based on Window size. Intended to be used as an event handler on Window resize.
+     */
     windowResize() {
         var oldXRes = this.state.xRes;
         var oldYRes = this.state.yRes;
@@ -491,33 +533,17 @@ class WorkSpace extends React.PureComponent {
         this.forceUpdate()
     }
 
-    panelResize(e, direction, ref, d) {
-        // var h_key = this.reference_factors.horizontal_key,
-        //     h_val = this.reference_factors.horizontal_value,
-        //     v_key = this.reference_factors.vertical_key,
-        //     v_val = this.reference_factors.vertical_value;
-        // if (direction.toLowerCase().includes('left')){d.width*=-1}
-        // if (direction.toLowerCase().includes('top')){d.height*=-1}
-        // if (['bottomRight', 'bottomLeft', 'topRight', 'topLeft'].includes(direction)) {
-        //     this.setState({[h_key]: h_val + d.width});
-        //     this.setState({[v_key]: v_val + d.height})
-        // } else if (['left', 'right'].includes(direction)) {
-        //     this.setState({[h_key]: h_val + d.width})
-        // } else {
-        //     this.setState({[v_key]: v_val + d.height})
-        // }
-        // window.dispatchEvent(new Event('resize'));
-    }
-
+    /**
+     * This is a hook to allow child element graphview to set its own size.
+     * Current horizontal factor attribute is set with respect to the first element in row.
+     * We subtract from one here so that calls to this method refer to the size of the actual
+     * graphview element instead.
+     *
+     * Args are passed in percents, so we need to convert them to fractions.
+     */
     setGraphSize(width=this.state.rowOneHorizontalFactor,
                  height=this.state.verticalFactor,
                  callback=()=>{}){
-        // This is a hook to allow child element graphview to set its own size.
-        // Current horizontal factor attribute is set with respect to the first element in row.
-        //  We subtract from one here so that calls to this method refer to the size of the actual
-        //  graphview element instead.
-        //
-        // Args are passed in percents, so we need to convert them to fractions.
 
         var padding = this.panelPadding,
             newHFactor = window.innerWidth-((window.innerWidth)*(width/100)+padding*2)-1,
@@ -531,6 +557,9 @@ class WorkSpace extends React.PureComponent {
         );
     }
 
+    /**
+     * If there are new components registered in the redux store, register their parameters as well
+     */
     componentDidUpdate(prevProps, prevState, snapshot) {
         const {componentMapNameToId, componentMapIdToParameterSet} = this.props;
         const registeredParameters = Object.keys(componentMapIdToParameterSet);
@@ -555,17 +584,13 @@ class WorkSpace extends React.PureComponent {
         // window.addEventListener('change', this.on_change)
     }
 
-    on_change(e) {
-    }
-
-    saveMouseData(e) {
-        this.setState({mouse: e})
-    }
-
+    /**
+     * Toggles the settings dialog that allows a user to set their interpreter and PNL paths
+     */
     toggleDialog = () => {
         var interpreterPath_is_blank = !fs.getConfig()['Python']['Interpreter Path'];
         if (!interpreterPath_is_blank) {
-            this.setState({show_settings: !this.state.show_settings});
+            this.setState({showSettings: !this.state.showSettings});
         }
     };
 
@@ -841,8 +866,7 @@ class WorkSpace extends React.PureComponent {
                     activePanelControl={this.setActiveComponent}
                 />
                 <SettingsPane
-                    isOpen={false}
-                    // isOpen={true}
+                    isOpen={this.state.showSettings}
                     toggleDialog={this.toggleDialog}
                     config={window.config}/>
                 <DndProvider backend={ HTML5Backend } >

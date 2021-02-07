@@ -3,6 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="0426a943-ef89-4391-a3a0-8152f91aa099" name="Default Changelist" comment="fix up readme">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/api.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/ipcEvents.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/workspace.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/workspace.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,8 +75,14 @@
       <recent name="C:\Users\Dillo\WebstormProjects\PsyNeuLinkView\src" />
     </key>
   </component>
-  <component name="RunManager" selected="Attach to Node.js/Chrome.Debug Render">
+  <component name="RunManager" selected="JavaScript Debug.index.html (1)">
     <configuration name="Debug Render" type="ChromiumRemoteDebugType" factoryName="Chromium Remote" port="9222">
+      <method v="2" />
+    </configuration>
+    <configuration name="index.html (1)" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/PsyNeuLinkView/build/html/index.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/PsyNeuLinkView/build/index.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
     <configuration name="Main" type="NodeJSConfigurationType" application-parameters="--remote-debugging-port=9222" path-to-node="$PROJECT_DIR$/node_modules/electron/dist/electron" node-parameters="." working-dir="$PROJECT_DIR$">
@@ -90,12 +101,16 @@
     </configuration>
     <list>
       <item itemvalue="Attach to Node.js/Chrome.Debug Render" />
+      <item itemvalue="JavaScript Debug.index.html" />
+      <item itemvalue="JavaScript Debug.index.html (1)" />
       <item itemvalue="Node.js.Main" />
       <item itemvalue="Node.js.test_attribute.js" />
       <item itemvalue="Shell Script.compile_protos.sh" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JavaScript Debug.index.html (1)" />
+        <item itemvalue="JavaScript Debug.index.html" />
         <item itemvalue="Shell Script.compile_protos.sh" />
         <item itemvalue="Node.js.test_attribute.js" />
       </list>
@@ -248,6 +263,18 @@
       <workItem from="1609519137177" duration="595000" />
       <workItem from="1609630043410" duration="595000" />
       <workItem from="1609768834805" duration="1287000" />
+      <workItem from="1609856310425" duration="1142000" />
+      <workItem from="1609861092383" duration="1297000" />
+      <workItem from="1609961445049" duration="596000" />
+      <workItem from="1609984104239" duration="294000" />
+      <workItem from="1610080469039" duration="595000" />
+      <workItem from="1610376771401" duration="616000" />
+      <workItem from="1610459868311" duration="251000" />
+      <workItem from="1610460132175" duration="8139000" />
+      <workItem from="1610644328893" duration="599000" />
+      <workItem from="1612479285893" duration="59000" />
+      <workItem from="1612580847236" duration="599000" />
+      <workItem from="1612726599435" duration="1569000" />
     </task>
     <task id="LOCAL-00001" summary="Enabled touchpad zoom gestures and windows ctrl shortcuts">
       <created>1581449946471</created>
@@ -543,11 +570,28 @@
       <option name="project" value="LOCAL" />
       <updated>1607367834556</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="fix up readme">
+      <created>1609789535106</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1609789535106</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -564,7 +608,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="fixed some broken references" />
     <MESSAGE value="Switched to electron 10, switched to grpc-js" />
     <MESSAGE value="replaced some event listeners that were causing bottlenecks; disabled some other code that was also slowing things down which still needs to be replaced" />
     <MESSAGE value="cleaned up dependencies" />
@@ -589,21 +632,22 @@
     <MESSAGE value="basic implementation of nivo line plot" />
     <MESSAGE value="convert all snakecase to camelcase" />
     <MESSAGE value="fit model to slightly less than the total size of the canvas" />
-    <option name="LAST_COMMIT_MESSAGE" value="fit model to slightly less than the total size of the canvas" />
+    <MESSAGE value="fix up readme" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix up readme" />
   </component>
   <component name="WindowStateProjectService">
     <state x="896" y="295" width="889" height="580" key="#xdebugger.evaluate" timestamp="1606758595075">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="896" y="295" width="889" height="580" key="#xdebugger.evaluate/0.0.1920.1040@0.0.1920.1040" timestamp="1606758595075" />
-    <state x="598" y="118" width="1168" height="803" key="CommitChangelistDialog2" timestamp="1607367833845">
+    <state x="598" y="118" width="1168" height="803" key="CommitChangelistDialog2" timestamp="1612479340871">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="598" y="118" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1607367833845" />
-    <state x="355" y="113" width="1536" height="860" key="DiffContextDialog" timestamp="1609770541314">
+    <state x="598" y="118" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1612479340871" />
+    <state x="355" y="113" width="1536" height="860" key="DiffContextDialog" timestamp="1612726757351">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="355" y="113" width="1536" height="860" key="DiffContextDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1609770541314" />
+    <state x="355" y="113" width="1536" height="860" key="DiffContextDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1612726757351" />
     <state width="948" height="351" key="GridCell.Tab.0.bottom" timestamp="1606831995092">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -652,26 +696,30 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="948" height="351" key="GridCell.Tab.2.right/0.0.1920.1040@0.0.1920.1040" timestamp="1606831995092" />
-    <state x="920" y="261" key="RollbackChangesDialog" timestamp="1609770543518">
+    <state x="920" y="261" key="RollbackChangesDialog" timestamp="1612726758217">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="920" y="261" key="RollbackChangesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1609770543518" />
+    <state x="920" y="261" key="RollbackChangesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1612726758217" />
     <state x="463" y="165" key="SettingsEditor" timestamp="1606770092570">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="463" y="165" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1606770092570" />
-    <state x="552" y="256" key="Vcs.Push.Dialog.v2" timestamp="1607367836440">
+    <state x="93" y="93" width="1733" height="853" key="VCS.FileHistoryDialog" timestamp="1612727388306">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="256" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1607367836440" />
+    <state x="93" y="93" width="1733" height="853" key="VCS.FileHistoryDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1612727388306" />
+    <state x="552" y="256" key="Vcs.Push.Dialog.v2" timestamp="1609789536252">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="552" y="256" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1609789536252" />
     <state x="93" y="93" width="1733" height="853" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1606151199408">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="93" y="93" width="1733" height="853" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1606151199408" />
-    <state x="92" y="92" width="1736" height="856" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1606767835622">
+    <state x="92" y="92" width="1736" height="856" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1612727388306">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="92" y="92" width="1736" height="856" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1606767835622" />
+    <state x="92" y="92" width="1736" height="856" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1612727388306" />
     <state x="92" y="92" width="1736" height="856" key="com.intellij.history.integration.ui.views.SelectionHistoryDialog" timestamp="1606767835622">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -680,30 +728,23 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="603" y="460" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1920.1040@0.0.1920.1040" timestamp="1606831845855" />
-    <state x="843" y="107" width="825" height="732" key="find.popup" timestamp="1608648886096">
+    <state x="843" y="107" width="825" height="732" key="find.popup" timestamp="1610463349343">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state x="843" y="107" width="825" height="732" key="find.popup/-3840.-218.1920.1060/0.0.1920.1040@0.0.1920.1040" timestamp="1610463349343" />
     <state x="843" y="107" width="825" height="732" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1608648886096" />
     <state x="588" y="294" width="672" height="677" key="run.anything.popup" timestamp="1606756140904">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="588" y="294" width="672" height="677" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1606756140904" />
-    <state x="701" y="321" width="672" height="678" key="search.everywhere.popup" timestamp="1609770155375">
+    <state x="702" y="322" width="672" height="678" key="search.everywhere.popup" timestamp="1612727568882">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state x="701" y="321" width="672" height="678" key="search.everywhere.popup/-3840.-218.1920.1060/0.0.1920.1040@0.0.1920.1040" timestamp="1610464471007" />
     <state x="608" y="231" width="672" height="678" key="search.everywhere.popup/-3840.0.1920.1060/0.0.1920.1040@0.0.1920.1040" timestamp="1606857880663" />
-    <state x="701" y="321" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1609770155375" />
+    <state x="702" y="322" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1612727568882" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/components/workspace.js</url>
-          <line>158</line>
-          <option name="timeStamp" value="24" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="ChromiumRemoteDebugType">
         <watch expression="data" />
