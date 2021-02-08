@@ -705,7 +705,7 @@ class WorkSpace extends React.PureComponent {
                     graph={this.state.graph}
                     // graphStyle = {this.state.graphStyle}
                     filepath = {this.state.filepath}
-                    graph_size_fx = {this.setGraphSize}
+                    graphSizeFx = {this.setGraphSize}
                 />
             </div>,
             plotter =  <div key="plotter">
