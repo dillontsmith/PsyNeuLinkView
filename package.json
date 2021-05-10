@@ -22,7 +22,7 @@
     "formik-persist": "^1.1.0",
     "jquery": "^3.5.1",
     "jsdoc": "^3.6.6",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "mathjs": "^6.6.4",
     "rc-color-picker": "^1.2.6",
     "re-resizable": "^6.5.4",
