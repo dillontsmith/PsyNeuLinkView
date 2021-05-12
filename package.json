@@ -23,7 +23,7 @@
     "jquery": "^3.5.1",
     "jsdoc": "^3.6.6",
     "lodash": "^4.17.15",
-    "mathjs": "^6.6.4",
+    "mathjs": "^7.5.1",
     "rc-color-picker": "^1.2.6",
     "re-resizable": "^6.5.4",
     "react-chartjs-2": "^2.10.0",
